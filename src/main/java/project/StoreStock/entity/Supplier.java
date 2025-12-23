@@ -3,11 +3,13 @@ package project.StoreStock.entity;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Data
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Supplier implements Comparable<Supplier>, Serializable{
+public class Supplier implements Comparable<Supplier>, Serializable {
     private String id;
 
     @NotBlank(message = "Supplier name is required")

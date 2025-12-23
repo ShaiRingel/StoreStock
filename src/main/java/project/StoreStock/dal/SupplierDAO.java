@@ -1,11 +1,10 @@
 package project.StoreStock.dal;
 
-import project.StoreStock.entity.Product;
 import project.StoreStock.entity.Supplier;
 
 import java.util.List;
 
-public class SupplierDAO {
+public interface SupplierDAO {
     
     List<Supplier> getAll() throws Exception;
     
