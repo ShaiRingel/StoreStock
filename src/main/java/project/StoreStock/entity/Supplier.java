@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Supplier implements Comparable<Supplier>{
+public class Supplier implements Comparable<Supplier>, Serializable{
     private static int counter = 1;
     private int id;
 
