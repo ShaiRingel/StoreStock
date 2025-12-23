@@ -8,8 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Product implements Comparable<Product>, Serializable{
-    private static int counter = 1;
-    private int id;
+    private String id;
 
     @NotBlank(message = "Product name is required")
     @Size(max = 20, message = "Product name must be up to 20 characters")
@@ -26,7 +25,7 @@ public class Product implements Comparable<Product>, Serializable{
     private Supplier supplier;
 
     public Product(String name, String description, int priority, Supplier supplier) {
-        this.id = counter++;
+       this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.priority = priority;
