@@ -6,25 +6,13 @@ import java.util.List;
 
 public class ProductDAO {
 
-    public List<Product> getAll() throws Exception {
-
-        return null;
-    }
-
-    public void save(Product product) throws Exception {
-
-    }
-
-    public void update(Product product) throws Exception {
-
-    }
-
-    public void delete(String id) throws Exception {
-
-    }
-
-    public Product get(String id) throws Exception {
-
-        return null;
-    }
+    List<Product> getAll() throws Exception;
+    
+    void save(Product product) throws Exception;
+    
+    void update(Product product) throws Exception;
+    
+    void delete(String id) throws Exception;
+    
+    Product get(String id) throws Exception;
 }
