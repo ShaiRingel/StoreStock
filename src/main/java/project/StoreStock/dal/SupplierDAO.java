@@ -6,27 +6,15 @@ import project.StoreStock.entity.Supplier;
 import java.util.List;
 
 public class SupplierDAO {
-
-    public List<Supplier> getAll() throws Exception {
-
-        return null;
-    }
-
-    public void save(Supplier product) throws Exception {
-
-    }
-
-    public void update(Supplier product) throws Exception {
-
-    }
-
-    public void delete(String id) throws Exception {
-
-    }
-
-    public Supplier get(String id) throws Exception {
-
-        return null;
-    }
+    
+    List<Supplier> getAll() throws Exception;
+    
+    void save(Supplier supplier) throws Exception;
+    
+    void update(Supplier supplier) throws Exception;
+    
+    void delete(String id) throws Exception;
+    
+    Supplier get(String id) throws Exception;
 
 }
