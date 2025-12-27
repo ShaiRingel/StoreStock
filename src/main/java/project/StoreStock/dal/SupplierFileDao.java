@@ -13,13 +13,13 @@ public class SupplierFileDao {
 
     private final String FILENAME = "suppliers.dat";
 
-    public List<Product> getAll() throws IOException, ClassNotFoundException {   
+    public List<Supplier> getAll() throws IOException, ClassNotFoundException {   
         File file = new File(FILENAME);       
         if (!file.exists()) {
             return new ArrayList<>();
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            List<Supplier> suppliers = (List<Product>) ois.readObject();
+            List<Supplier> suppliers = (List<Supplier>) ois.readObject();
             
             Collections.sort(products);
             
