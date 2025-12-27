@@ -13,27 +13,27 @@ public class SupplierFileDao {
 
     private final String FILENAME = "suppliers.dat";
 
-public List<Product> getAll() throws IOException, ClassNotFoundException {
-    File file = new File(FILENAME);    
-    if (!file.exists()) {
-        return new ArrayList<>();
-    }
-    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-        List<Product> products = (List<Product>) ois.readObject();
-        
-        Collections.sort(products);
-
-        if (!products.isEmpty()) {
-            int maxId = products.stream()
-                                .mapToInt(Product::getId) 
-                                .max()                
-                                .orElse(0);           
+    public List<Product> getAll() throws IOException, ClassNotFoundException {   
+        File file = new File(FILENAME);       
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            List<Supplier> suppliers = (List<Product>) ois.readObject();
             
-            Product.setCounter(maxId + 1);
-        }        
-        return products;
+            Collections.sort(products);
+            
+            if (!suppliers.isEmpty()) {
+                int maxId = suppliers.stream()
+                    .mapToInt(Supplier::getId) 
+                    .max()                
+                    .orElse(0);           
+            
+                Supplier.setCounter(maxId + 1);
+            }        
+            return suppliers;
+        }
     }
-}
 
     public void save(Supplier supplier) throws IOException, ClassNotFoundException {
         List<Supplier> suppliers = getAll();
