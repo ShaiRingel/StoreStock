@@ -25,7 +25,7 @@ public class MainMenu {
                     switch (productResult) {
                         case 1:
                             System.out.println("Enter product ID");
-                            String productID = scanner.nextLine();
+                            int productID = scanner.nextInt();
                             try {
                                 Product product = productService.get(productID);
                             } catch (Exception e) {
@@ -47,7 +47,7 @@ public class MainMenu {
                             break;
                         case 5:
                             System.out.println("Enter Product ID");
-                            String productId = scanner.nextLine();
+                            int productId = scanner.nextInt();
                             try {
                                 productService.delete(productId);
                             } catch (Exception e) {
@@ -63,7 +63,7 @@ public class MainMenu {
                     switch (supplierResult) {
                         case 1:
                             System.out.println("Enter a supplier ID");
-                            String supplierID = scanner.nextLine();
+                            int supplierID = scanner.nextInt();
                             try {
                                 Supplier s = supplierService.get(supplierID);
                             } catch (Exception e) {
@@ -85,7 +85,7 @@ public class MainMenu {
                             break;
                         case 5:
                             System.out.println("Enter a supplier ID");
-                            String supplierId = scanner.nextLine();
+                            int supplierId = scanner.nextInt();
                             try {
                                 supplierService.delete(supplierId);
                             } catch (Exception e) {
