@@ -60,12 +60,10 @@ public class SupplierFileDao {
 
     public Supplier get(int id) throws IOException, ClassNotFoundException {
         List<Supplier> suppliers = getAll();
-        for (Supplier s : suppliers) {
-            if (s.getId() == id) {
-                return s;
-            }
-        }
-        return null;
+        return products.stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     private void writeToFile(List<Supplier> suppliers) throws IOException {
