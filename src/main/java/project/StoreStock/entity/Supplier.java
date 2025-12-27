@@ -11,10 +11,10 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class Supplier implements Comparable<Supplier>, Serializable {
     @Setter
-    private static int counter = 1;
+    private static int counter = 0;
 
     @Positive(message = "Id must be positive!")
-    private int id;
+    private int id ;
 
     @NotBlank(message = "Supplier name is required")
     @Size(max = 30, message = "Supplier name must be up to 30 characters")
@@ -24,8 +24,8 @@ public class Supplier implements Comparable<Supplier>, Serializable {
     @Size(max = 15, message = "Phone number must be up to 15 characters")
     private String phone;
 
-    public Supplier(int counter, String name, String phone) {
-        id = counter;
+    public Supplier( String name, String phone) {
+        id = ++counter;
         this.name = name;
         this.phone = phone;
     }

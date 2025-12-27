@@ -11,7 +11,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class Product implements Comparable<Product>, Serializable {
     @Setter
-    private static int counter = 1;
+    private static int counter = 0;
 
     @Positive(message = "Id must be positive!")
     private int id;
@@ -30,8 +30,8 @@ public class Product implements Comparable<Product>, Serializable {
 
     private Supplier supplier;
 
-    public Product(int counter, String name, String description, int priority, Supplier supplier) {
-        id = counter;
+    public Product(String name, String description, int priority, Supplier supplier) {
+        id = ++counter;
         this.name = name;
         this.description = description;
         this.priority = priority;
