@@ -13,15 +13,24 @@ public class SupplierFileDao {
 
     private final String FILENAME = "suppliers.dat";
 
-    public List<Supplier> getAll() throws IOException, ClassNotFoundException {
-        File file = new File(FILENAME);
+    public List<Product> getAll() throws IOException, ClassNotFoundException {   
+        File file = new File(FILENAME);       
         if (!file.exists()) {
             return new ArrayList<>();
         }
-
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            List<Supplier> suppliers = (List<Supplier>) ois.readObject();
-            Collections.sort(suppliers);
+            List<Supplier> suppliers = (List<Product>) ois.readObject();
+            
+            Collections.sort(products);
+            
+            if (!suppliers.isEmpty()) {
+                int maxId = suppliers.stream()
+                    .mapToInt(Supplier::getId) 
+                    .max()                
+                    .orElse(0);           
+            
+                Supplier.setCounter(maxId + 1);
+            }        
             return suppliers;
         }
     }

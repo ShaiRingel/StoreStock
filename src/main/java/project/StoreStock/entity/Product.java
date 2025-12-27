@@ -3,15 +3,15 @@ package project.StoreStock.entity;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 @Data
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Product implements Comparable<Product>, Serializable {
-    private String id;
+public class Product implements Comparable<Product>, Serializable{
+    
+    public static void setCounter(int c) {
+        counter = c;
+    }
 
     @NotBlank(message = "Product name is required")
     @Size(max = 20, message = "Product name must be up to 20 characters")
@@ -28,7 +28,6 @@ public class Product implements Comparable<Product>, Serializable {
     private Supplier supplier;
 
     public Product(String name, String description, int priority, Supplier supplier) {
-       this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.priority = priority;

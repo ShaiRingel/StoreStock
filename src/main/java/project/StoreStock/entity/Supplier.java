@@ -11,7 +11,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Supplier implements Comparable<Supplier>, Serializable {
-    private String id;
+    
+    public static void setCounter(int c) {
+    counter = c;
+    }
 
     @NotBlank(message = "Supplier name is required")
     @Size(max = 30, message = "Supplier name must be up to 30 characters")
@@ -22,7 +25,6 @@ public class Supplier implements Comparable<Supplier>, Serializable {
     private String phone;
 
     public Supplier(String name, String phone) {
-        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.phone = phone;
     }
