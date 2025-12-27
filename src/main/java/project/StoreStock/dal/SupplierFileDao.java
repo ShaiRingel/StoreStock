@@ -21,13 +21,13 @@ public class SupplierFileDao {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             List<Supplier> suppliers = (List<Supplier>) ois.readObject();
             
-            Collections.sort(products);
+            Collections.sort(suppliers);
             
             if (!suppliers.isEmpty()) {
                 int maxId = suppliers.stream()
-                    .mapToInt(Supplier::getId) 
-                    .max()                
-                    .orElse(0);           
+                    .mapToInt(Supplier::getId)
+                    .max()
+                    .orElse(0);
             
                 Supplier.setCounter(maxId + 1);
             }        
@@ -44,7 +44,7 @@ public class SupplierFileDao {
     public void update(Supplier supplier) throws IOException, ClassNotFoundException {
         List<Supplier> suppliers = getAll();
         for (int i = 0; i < suppliers.size(); i++) {
-            if (suppliers.get(i).getId().equals(supplier.getId())) {
+            if (suppliers.get(i).getId() == supplier.getId()) {
                 suppliers.set(i, supplier);
                 break;
             }
@@ -52,16 +52,16 @@ public class SupplierFileDao {
         writeToFile(suppliers);
     }
 
-    public void delete(String id) throws IOException, ClassNotFoundException {
+    public void delete(int id) throws IOException, ClassNotFoundException {
         List<Supplier> suppliers = getAll();
-        suppliers.removeIf(s -> s.getId().equals(id));
+        suppliers.removeIf(s -> s.getId() == id);
         writeToFile(suppliers);
     }
 
-    public Supplier get(String id) throws IOException, ClassNotFoundException {
+    public Supplier get(int id) throws IOException, ClassNotFoundException {
         List<Supplier> suppliers = getAll();
         for (Supplier s : suppliers) {
-            if (s.getId().equals(id)) {
+            if (s.getId() == id) {
                 return s;
             }
         }

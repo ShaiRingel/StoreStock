@@ -21,17 +21,18 @@ public class ProductFileDao {
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             List<Product> products = (List<Product>) ois.readObject();
-            
+
             Collections.sort(products);
             
             if (!products.isEmpty()) {
                 int maxId = products.stream()
-                    .mapToInt(Product::getId) 
-                    .max()                
-                    .orElse(0);           
+                    .mapToInt(Product::getId)
+                    .max()
+                    .orElse(0);
             
                 Product.setCounter(maxId + 1);
-            }        
+            }
+
             return products;
         }
     }
@@ -45,7 +46,7 @@ public class ProductFileDao {
     public void update(Product product) throws IOException, ClassNotFoundException {
         List<Product> products = getAll();
         for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId().equals(product.getId())) {
+            if (products.get(i).getId() == product.getId()) {
                 products.set(i, product);
                 break;
             }
@@ -53,20 +54,19 @@ public class ProductFileDao {
         writeToFile(products);
     }
 
-    public void delete(String id) throws IOException, ClassNotFoundException {
+    public void delete(int id) throws IOException, ClassNotFoundException {
         List<Product> products = getAll();
-        products.removeIf(p -> p.getId().equals(id));
+        products.removeIf(p -> p.getId() == id);
         writeToFile(products);
     }
 
-    public Product get(String id) throws IOException, ClassNotFoundException {
+    public Product get(int id) throws IOException, ClassNotFoundException {
         List<Product> products = getAll();
-        for (Product p : products) {
-            if (p.getId().equals(id)) {
-                return p;
-            }
-        }
-        return null;
+
+        return products.stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     private void writeToFile(List<Product> products) throws IOException {

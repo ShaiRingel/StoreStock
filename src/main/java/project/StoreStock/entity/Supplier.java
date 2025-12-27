@@ -4,17 +4,17 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @Data
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Supplier implements Comparable<Supplier>, Serializable {
-    
-    public static void setCounter(int c) {
-    counter = c;
-    }
+    @Setter
+    private static int counter = 1;
+
+    @Positive(message = "Id must be positive!")
+    private int id;
 
     @NotBlank(message = "Supplier name is required")
     @Size(max = 30, message = "Supplier name must be up to 30 characters")
@@ -24,7 +24,8 @@ public class Supplier implements Comparable<Supplier>, Serializable {
     @Size(max = 15, message = "Phone number must be up to 15 characters")
     private String phone;
 
-    public Supplier(String name, String phone) {
+    public Supplier(int counter, String name, String phone) {
+        id = counter;
         this.name = name;
         this.phone = phone;
     }
