@@ -8,10 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Product implements Comparable<Product>, Serializable{
-
-public static void setCounter(int c) {
-    counter = c;
-}
+    
+    public static void setCounter(int c) {
+        counter = c;
+    }
 
     @NotBlank(message = "Product name is required")
     @Size(max = 20, message = "Product name must be up to 20 characters")
