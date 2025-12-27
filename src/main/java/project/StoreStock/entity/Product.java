@@ -3,11 +3,14 @@ package project.StoreStock.entity;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 @Data
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Product implements Comparable<Product>, Serializable{
+public class Product implements Comparable<Product>, Serializable {
     private String id;
 
     @NotBlank(message = "Product name is required")

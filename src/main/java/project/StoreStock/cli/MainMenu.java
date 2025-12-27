@@ -21,7 +21,7 @@ public class MainMenu {
             int result = optionMenu();
             switch (result) {
                 case 1:
-                    int productResult = productMenu();
+                    int productResult = entityMenu(Product.class.getName().toLowerCase());
                     switch (productResult) {
                         case 1:
                             System.out.println("Enter product ID");
@@ -91,7 +91,7 @@ public class MainMenu {
                             break;
                     }
                 case 2:
-                    int supplierResult = supplierMenu();
+                    int supplierResult = entityMenu(Supplier.class.getName().toLowerCase());
                     switch (supplierResult) {
                         case 1:
                             System.out.println("Enter a supplier ID");
@@ -168,23 +168,13 @@ public class MainMenu {
         }
     }
 
-    private int productMenu(){
+    private int entityMenu(String entityName){
         System.out.println("Choose an option from the following:");
-        System.out.println("1. Get a product");
-        System.out.println("2. Get all products");
-        System.out.println("3. Save a product");
-        System.out.println("4. Update a product");
-        System.out.println("5. Delete a product");
-        return scanner.nextInt();
-    }
-
-    private int supplierMenu() {
-        System.out.println("Choose an option from the following:");
-        System.out.println("1. Get a supplier");
-        System.out.println("2. Get all suppliers");
-        System.out.println("3. Save a supplier");
-        System.out.println("4. Update a supplier");
-        System.out.println("5. Delete a supplier");
+        System.out.println("1. Get a " + entityName);
+        System.out.println("2. Get all " + entityName);
+        System.out.println("3. Save a " + entityName);
+        System.out.println("4. Update a " + entityName);
+        System.out.println("5. Delete a " + entityName);
         return scanner.nextInt();
     }
 }
