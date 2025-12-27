@@ -40,42 +40,10 @@ public class MainMenu {
                             }
                             break;
                         case 3:
-                            System.out.println("Enter Supplier name");
-                            String supplierName = scanner.nextLine();
-                            System.out.println("Enter Supplier phone number");
-                            String supplierPhoneNo = scanner.nextLine();
-                            Supplier s = new Supplier(supplierName, supplierPhoneNo);
-                            System.out.println("Enter Product name");
-                            String productName = scanner.nextLine();
-                            System.out.println("Enter description");
-                            String description = scanner.nextLine();
-                            System.out.println("Enter priority");
-                            int priority = scanner.nextInt();
-                            Product p = new Product(productName, description, priority, s);
-                            try {
-                                productService.save(p);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            productChanges(productResult);
                             break;
                         case 4:
-                            System.out.println("Enter Supplier name");
-                            String SupplierName = scanner.nextLine();
-                            System.out.println("Enter Supplier phone number");
-                            String SupplierPhoneNo = scanner.nextLine();
-                            Supplier supplier = new Supplier(SupplierName, SupplierPhoneNo);
-                            System.out.println("Enter Product name");
-                            String ProductName = scanner.nextLine();
-                            System.out.println("Enter description");
-                            String Description = scanner.nextLine();
-                            System.out.println("Enter priority");
-                            int Priority = scanner.nextInt();
-                            Product product = new Product(ProductName, Description, Priority, supplier);
-                            try {
-                                productService.update(product);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            productChanges(productResult);
                             break;
                         case 5:
                             System.out.println("Enter Product ID");
@@ -110,28 +78,10 @@ public class MainMenu {
                             }
                             break;
                         case 3:
-                            System.out.println("Enter Supplier name");
-                            String supplierName = scanner.nextLine();
-                            System.out.println("Enter Supplier phone number");
-                            String supplierPhoneNo = scanner.nextLine();
-                            Supplier s = new Supplier(supplierName, supplierPhoneNo);
-                            try {
-                                supplierService.save(s);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            supplierChanges(supplierResult);
                             break;
                         case 4:
-                            System.out.println("Enter Supplier name");
-                            String SupplierName = scanner.nextLine();
-                            System.out.println("Enter Supplier phone number");
-                            String SupplierPhoneNo = scanner.nextLine();
-                            Supplier supplier = new Supplier(SupplierName, SupplierPhoneNo);
-                            try {
-                                supplierService.update(supplier);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            supplierChanges(supplierResult);
                             break;
                         case 5:
                             System.out.println("Enter a supplier ID");
@@ -146,6 +96,12 @@ public class MainMenu {
                             System.out.println("Invalid command");
                             break;
                     }
+                case 3:
+                    continueCommand = false;
+                    break;
+                default:
+                    System.out.println("Invalid command");
+                    break;
             }
         }
     }
@@ -176,5 +132,58 @@ public class MainMenu {
         System.out.println("4. Update a " + entityName);
         System.out.println("5. Delete a " + entityName);
         return scanner.nextInt();
+    }
+
+    private void productChanges(int commandNumber){
+        System.out.println("Enter Supplier name");
+        String supplierName = scanner.nextLine();
+        System.out.println("Enter Supplier phone number");
+        String supplierPhoneNo = scanner.nextLine();
+        Supplier s = new Supplier(supplierName, supplierPhoneNo);
+        System.out.println("Enter Product name");
+        String productName = scanner.nextLine();
+        System.out.println("Enter description");
+        String description = scanner.nextLine();
+        System.out.println("Enter priority");
+        int priority = scanner.nextInt();
+        Product p = new Product(productName, description, priority, s);
+        if(commandNumber == 3){
+            try {
+                productService.save(p);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                productService.update(p);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void supplierChanges(int commandNumber){
+        System.out.println("Enter Supplier name");
+        String supplierName = scanner.nextLine();
+        System.out.println("Enter Supplier phone number");
+        String supplierPhoneNo = scanner.nextLine();
+        Supplier s = new Supplier(supplierName, supplierPhoneNo);
+        if(commandNumber == 3){
+            try {
+                supplierService.save(s);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                supplierService.update(s);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
 }
