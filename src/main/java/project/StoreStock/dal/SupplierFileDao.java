@@ -12,67 +12,63 @@ import java.util.List;
 public class SupplierFileDao {
 
     private final String FILENAME = "suppliers.dat";
-    private List<Supplier> suppliers;
 
-    public SupplierFileDao() {
-        this.suppliers = initFromFile();
-    }
-
-    private List<Supplier> initFromFile() {
-        File file = new File(FILENAME);
+    public List<Supplier> getAll() throws IOException, ClassNotFoundException {   
+        File file = new File(FILENAME);       
         if (!file.exists()) {
             return new ArrayList<>();
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            List<Supplier> loadedList = (List<Supplier>) ois.readObject();
-            Collections.sort(loadedList);
-
-            if (!loadedList.isEmpty()) {
-                int maxId = loadedList.stream()
-                        .mapToInt(Supplier::getId)
-                        .max()
-                        .orElse(0);
+            List<Supplier> suppliers = (List<Supplier>) ois.readObject();
+            
+            Collections.sort(suppliers);
+            
+            if (!suppliers.isEmpty()) {
+                int maxId = suppliers.stream()
+                    .mapToInt(Supplier::getId)
+                    .max()
+                    .orElse(0);
+            
                 Supplier.setCounter(maxId + 1);
-            }
-            return loadedList;
-        } catch (IOException | ClassNotFoundException e) {
-            return new ArrayList<>();
+            }        
+            return suppliers;
         }
     }
 
-    public List<Supplier> getAll() {
-        return this.suppliers;
-    }
-
-    public void save(Supplier supplier) throws IOException {
+    public void save(Supplier supplier) throws IOException, ClassNotFoundException {
+        List<Supplier> suppliers = getAll();
         suppliers.add(supplier);
-        saveToFile();
+        writeToFile(suppliers);
     }
 
-    public void update(Supplier supplier) throws IOException {
+    public void update(Supplier supplier) throws IOException, ClassNotFoundException {
+        List<Supplier> suppliers = getAll();
         for (int i = 0; i < suppliers.size(); i++) {
             if (suppliers.get(i).getId() == supplier.getId()) {
                 suppliers.set(i, supplier);
                 break;
             }
         }
-        saveToFile();
+        writeToFile(suppliers);
     }
 
-    public void delete(int id) throws IOException {
+    public void delete(int id) throws IOException, ClassNotFoundException {
+        List<Supplier> suppliers = getAll();
         suppliers.removeIf(s -> s.getId() == id);
-        saveToFile();
+        writeToFile(suppliers);
     }
 
-    public Supplier get(int id) {
-        return suppliers.stream()
-                .filter(s -> s.getId() == id)
-                .findFirst()
-                .orElse(null);
+    public Supplier get(int id) throws IOException, ClassNotFoundException {
+        List<Supplier> suppliers = getAll();
+        for (Supplier s : suppliers) {
+            if (s.getId() == id) {
+                return s;
+            }
+        }
+        return null;
     }
 
-    private void saveToFile() throws IOException {
-        Collections.sort(suppliers);
+    private void writeToFile(List<Supplier> suppliers) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILENAME))) {
             oos.writeObject(suppliers);
         }

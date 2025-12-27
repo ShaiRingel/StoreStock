@@ -12,7 +12,7 @@ public interface ProductDAO {
 
     void update(Product product) throws Exception;
 
-    void delete(String id) throws Exception;
+    void delete(int id) throws Exception;
 
-    Product get(String id) throws Exception;
+    Product get(int id) throws Exception;
 }

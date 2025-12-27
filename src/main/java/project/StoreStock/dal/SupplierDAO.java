@@ -12,8 +12,8 @@ public interface SupplierDAO {
     
     void update(Supplier supplier) throws Exception;
     
-    void delete(String id) throws Exception;
+    void delete(int id) throws Exception;
     
-    Supplier get(String id) throws Exception;
+    Supplier get(int id) throws Exception;
 
 }
