@@ -48,14 +48,14 @@ public class SupplierService {
         supplierDao.update(supplier);
     }
 
-    public void delete(String id) throws Exception {
+    public void delete(int id) throws Exception {
         if (supplierDao.get(id) == null) {
             throw new Exception("Supplier with ID " + id + " was not deleted");
         }
         supplierDao.delete(id);
     }
 
-    public Supplier get(String id) throws Exception {
+    public Supplier get(int id) throws Exception {
         return supplierDao.get(id);
     }
 

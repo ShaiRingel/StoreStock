@@ -41,21 +41,21 @@ public class ProductService {
     public void update(Product product) throws Exception {
         validate(product);
 
-        if (productDao.get(String.valueOf(product.getId())) == null) {
+        if (productDao.get((product.getId())) == null) {
             throw new Exception("Cannot update product with ID " + product.getId() + ". It is not found");
         }
 
         productDao.update(product);
     }
 
-    public void delete(String id) throws Exception {
+    public void delete(int id) throws Exception {
         if (productDao.get(id) == null) {
             throw new Exception("Product with ID " + id + " was not deleted");
         }
         productDao.delete(id);
     }
 
-    public Product get(String id) throws Exception {
+    public Product get(int id) throws Exception {
         return productDao.get(id);
     }
 
