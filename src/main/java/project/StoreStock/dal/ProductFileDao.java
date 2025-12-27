@@ -12,64 +12,67 @@ import java.util.List;
 public class ProductFileDao {
 
     private final String FILENAME = "products.dat";
+    private List<Product> products;
 
+    public ProductFileDao() {
+        this.products = initFromFile();
+    }
 
-    public List<Product> getAll() throws IOException, ClassNotFoundException {   
-        File file = new File(FILENAME);       
+    private List<Product> initFromFile() {
+        File file = new File(FILENAME);
         if (!file.exists()) {
             return new ArrayList<>();
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            List<Product> products = (List<Product>) ois.readObject();
+            List<Product> loadedList = (List<Product>) ois.readObject();
+            Collections.sort(loadedList);
 
-            Collections.sort(products);
-            
-            if (!products.isEmpty()) {
-                int maxId = products.stream()
-                    .mapToInt(Product::getId)
-                    .max()
-                    .orElse(0);
-            
+            if (!loadedList.isEmpty()) {
+                int maxId = loadedList.stream()
+                        .mapToInt(Product::getId)
+                        .max()
+                        .orElse(0);
                 Product.setCounter(maxId + 1);
             }
-
-            return products;
+            return loadedList;
+        } catch (IOException | ClassNotFoundException e) {
+            return new ArrayList<>();
         }
     }
 
-    public void save(Product product) throws IOException, ClassNotFoundException {
-        List<Product> products = getAll();
-        products.add(product);
-        writeToFile(products);
+    public List<Product> getAll() {
+        return this.products;
     }
 
-    public void update(Product product) throws IOException, ClassNotFoundException {
-        List<Product> products = getAll();
+    public void save(Product product) throws IOException {
+        products.add(product);
+        saveToFile();
+    }
+
+    public void update(Product product) throws IOException {
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).getId() == product.getId()) {
                 products.set(i, product);
                 break;
             }
         }
-        writeToFile(products);
+        saveToFile();
     }
 
-    public void delete(int id) throws IOException, ClassNotFoundException {
-        List<Product> products = getAll();
+    public void delete(int id) throws IOException {
         products.removeIf(p -> p.getId() == id);
-        writeToFile(products);
+        saveToFile();
     }
 
-    public Product get(int id) throws IOException, ClassNotFoundException {
-        List<Product> products = getAll();
-
+    public Product get(int id) {
         return products.stream()
                 .filter(p -> p.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
-    private void writeToFile(List<Product> products) throws IOException {
+    private void saveToFile() throws IOException {
+        Collections.sort(products);
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILENAME))) {
             oos.writeObject(products);
         }
