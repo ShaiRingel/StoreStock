@@ -136,6 +136,35 @@ public class MainMenu {
                         supplier = new Supplier(supplierName, supplierPhoneNo);
                         createNewSupplier = true;
                     }
+                    else{
+                        System.out.println("\n=== Which Field To Update? ===");
+                        System.out.println("1. Supplier Name");
+                        System.out.println("2. Supplier Phone Number");
+                        System.out.print("Enter your choice: ");
+                        int updateField = 1;
+                        try{
+                            updateField = Integer.parseInt(scanner.nextLine());
+                            if(updateField < 1 || updateField > 2){
+                                System.out.println("Invalid input. Updating by Supplier Name.");
+                                updateField = 1;
+                            }
+                        }catch(Exception e){
+                            System.out.println("Invalid input. Updating by Supplier Name.");
+                            updateField = 1;
+                        }
+                        boolean updateByName = (updateField == 1);
+                        if(updateByName){
+                            System.out.print("Enter Supplier name: ");
+                            String supplierName = scanner.nextLine();
+                            supplier =  supplierService.get(supplierId);
+                            supplier.setName(supplierName);
+                        }else {
+                            System.out.print("Enter Supplier Phone Number: ");
+                            String supplierPhoneNo = scanner.nextLine();
+                            supplier =  supplierService.get(supplierId);
+                            supplier.setPhone(supplierPhoneNo);
+                        }
+                    }
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                     return;
