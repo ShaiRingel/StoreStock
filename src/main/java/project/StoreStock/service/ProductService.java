@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import project.StoreStock.dal.ProductDAO;
 import project.StoreStock.entity.Product;
+import project.StoreStock.exceptions.IDNotFoundException;
+import project.StoreStock.exceptions.MaxQuantityReachedException;
+import project.StoreStock.exceptions.ValidationException;
 
 import java.util.List;
 import java.util.Set;
@@ -33,7 +36,7 @@ public class ProductService {
         validate(product);
 
         if (productDao.getAll().size() >= maxProducts)
-            throw new Exception("Cannot save more than 100 products");
+            throw new MaxQuantityReachedException("Products", maxProducts);;
 
         productDao.save(product);
     }
@@ -42,7 +45,7 @@ public class ProductService {
         validate(product);
 
         if (productDao.get((product.getId())) == null) {
-            throw new Exception("Cannot update product with ID " + product.getId() + ". It is not found");
+            throw new IDNotFoundException("Update", "Products", product.getId());
         }
 
         productDao.update(product);
@@ -50,7 +53,7 @@ public class ProductService {
 
     public void delete(int id) throws Exception {
         if (productDao.get(id) == null) {
-            throw new Exception("Product with ID " + id + " was not deleted");
+            throw new IDNotFoundException("Update", "Products", id);
         }
         productDao.delete(id);
     }
@@ -66,7 +69,7 @@ public class ProductService {
             for (ConstraintViolation<Product> violation : violations) {
                 sb.append(violation.getMessage()).append("\n");
             }
-            throw new Exception(sb.toString());
+            throw new ValidationException(sb.toString());
         }
     }
 

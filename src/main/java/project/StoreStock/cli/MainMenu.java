@@ -106,7 +106,7 @@ public class MainMenu {
         }
     }
 
-    private int optionMenu(){
+    private int optionMenu() {
         while(true) {
             System.out.println("Choose an option from the following:");
             System.out.println("1. Product Service");
@@ -116,15 +116,14 @@ public class MainMenu {
 
             String input = scanner.nextLine();
             try {
-                int option = Integer.parseInt(input);
-                return option;
+                return Integer.parseInt(input);
             } catch (Exception e) {
                 System.out.println("Invalid input");
             }
         }
     }
 
-    private int entityMenu(String entityName){
+    private int entityMenu(String entityName) {
         System.out.println("Choose an option from the following:");
         System.out.println("1. Get a " + entityName);
         System.out.println("2. Get all " + entityName);
@@ -134,7 +133,7 @@ public class MainMenu {
         return scanner.nextInt();
     }
 
-    private void productChanges(int commandNumber){
+    private void productChanges(int commandNumber) {
         System.out.println("Enter Supplier name");
         String supplierName = scanner.nextLine();
         System.out.println("Enter Supplier phone number");
@@ -163,7 +162,7 @@ public class MainMenu {
         }
     }
 
-    private void supplierChanges(int commandNumber){
+    private void supplierChanges(int commandNumber) {
         System.out.println("Enter Supplier name");
         String supplierName = scanner.nextLine();
         System.out.println("Enter Supplier phone number");
@@ -183,7 +182,5 @@ public class MainMenu {
                 e.printStackTrace();
             }
         }
-
-
     }
 }

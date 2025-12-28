@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import project.StoreStock.dal.SupplierDAO;
 import project.StoreStock.entity.Supplier;
+import project.StoreStock.exceptions.IDNotFoundException;
+import project.StoreStock.exceptions.MaxQuantityReachedException;
+import project.StoreStock.exceptions.ValidationException;
 
 import java.util.List;
 import java.util.Set;
@@ -33,7 +36,7 @@ public class SupplierService {
         validate(supplier);
 
         if (supplierDao.getAll().size() >= maxSuppliers)
-            throw new Exception("Cannot save more than 50 suppliers");
+            throw new MaxQuantityReachedException("Supplier", maxSuppliers);
 
         supplierDao.save(supplier);
     }
@@ -42,7 +45,7 @@ public class SupplierService {
         validate(supplier);
 
         if (supplierDao.get(supplier.getId()) == null) {
-            throw new Exception("Cannot update supplier with ID " + supplier.getId() + ". It is not found");
+            throw new IDNotFoundException("Update", "Supplier", supplier.getId());
         }
 
         supplierDao.update(supplier);
@@ -50,7 +53,7 @@ public class SupplierService {
 
     public void delete(int id) throws Exception {
         if (supplierDao.get(id) == null) {
-            throw new Exception("Supplier with ID " + id + " was not deleted");
+            throw new IDNotFoundException("Delete", "Supplier", id);
         }
         supplierDao.delete(id);
     }
@@ -66,7 +69,7 @@ public class SupplierService {
             for (ConstraintViolation<Supplier> violation : violations) {
                 sb.append(violation.getMessage()).append("\n");
             }
-            throw new Exception(sb.toString());
+            throw new ValidationException(sb.toString());
         }
     }
 }

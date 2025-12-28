@@ -38,8 +38,6 @@ public class Product implements Comparable<Product>, Serializable {
         this.supplier = supplier;
     }
 
-    ;
-
     @Override
     public int compareTo(Product p) {
         return this.name.compareTo(p.name);

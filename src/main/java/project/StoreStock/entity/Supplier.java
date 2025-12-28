@@ -24,7 +24,7 @@ public class Supplier implements Comparable<Supplier>, Serializable {
     @Size(max = 15, message = "Phone number must be up to 15 characters")
     private String phone;
 
-    public Supplier( String name, String phone) {
+    public Supplier(String name, String phone) {
         id = ++counter;
         this.name = name;
         this.phone = phone;
