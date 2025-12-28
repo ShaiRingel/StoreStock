@@ -10,7 +10,7 @@ import project.StoreStock.service.SupplierService;
 import java.util.List;
 import java.util.Scanner;
 
-@Component  // Added @Component annotation
+@Component
 public class MainMenu {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -49,9 +49,9 @@ public class MainMenu {
     private void handleProductOperations(int operation) {
         switch (operation) {
             case 1:
-                System.out.println("Enter product ID");
+                System.out.print("Enter product ID: ");
                 int productID = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 try {
                     Product product = productService.get(productID);
                     System.out.println("Product found: " + product);
@@ -69,15 +69,15 @@ public class MainMenu {
                 }
                 break;
             case 3:
-                productChanges(3);
+                createOrUpdateProduct(true);
                 break;
             case 4:
-                productChanges(4);
+                createOrUpdateProduct(false);
                 break;
             case 5:
-                System.out.println("Enter Product ID");
+                System.out.print("Enter Product ID: ");
                 int productId = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 try {
                     productService.delete(productId);
                     System.out.println("Product deleted successfully");
@@ -91,12 +91,107 @@ public class MainMenu {
         }
     }
 
+    private void createOrUpdateProduct(boolean isCreate) {
+        scanner.nextLine();
+
+        System.out.println("\n=== Supplier Information ===");
+        System.out.println("Do you want to:");
+        System.out.println("1. Create a new supplier");
+        System.out.println("2. Use an existing supplier by ID");
+        System.out.print("Enter your choice: ");
+
+        int supplierChoice = 0;
+        try {
+            supplierChoice = Integer.parseInt(scanner.nextLine());
+            if (supplierChoice < 1 || supplierChoice > 2) {
+                System.out.println("Invalid choice. Using option 1.");
+                supplierChoice = 1;
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid input. Using option 1.");
+            supplierChoice = 1;
+        }
+
+        Supplier supplier = null;
+        boolean createNewSupplier = (supplierChoice == 1);
+
+        if (createNewSupplier) {
+            System.out.print("Enter Supplier name: ");
+            String supplierName = scanner.nextLine();
+            System.out.print("Enter Supplier phone number: ");
+            String supplierPhoneNo = scanner.nextLine();
+            supplier = new Supplier(supplierName, supplierPhoneNo);
+        } else {
+            System.out.print("Enter existing Supplier ID: ");
+            try {
+                int supplierId = Integer.parseInt(scanner.nextLine());
+                try {
+                    supplier = supplierService.get(supplierId);
+                    if (supplier == null) {
+                        System.out.println("Supplier not found. Creating new supplier instead...");
+                        System.out.print("Enter Supplier name: ");
+                        String supplierName = scanner.nextLine();
+                        System.out.print("Enter Supplier phone number: ");
+                        String supplierPhoneNo = scanner.nextLine();
+                        supplier = new Supplier(supplierName, supplierPhoneNo);
+                        createNewSupplier = true;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                    return;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid supplier ID.");
+                return;
+            }
+        }
+
+        System.out.println("\n=== Product Information ===");
+        System.out.print("Enter Product name: ");
+        String productName = scanner.nextLine();
+        System.out.print("Enter description: ");
+        String description = scanner.nextLine();
+        System.out.print("Enter priority (1-5): ");
+        int priority = 0;
+        try {
+            priority = Integer.parseInt(scanner.nextLine());
+        } catch (Exception e) {
+            System.out.println("Invalid priority. Using default: 3");
+            priority = 3;
+        }
+
+        Product product = new Product(productName, description, priority, supplier);
+
+        if (isCreate) {
+            try {
+                productService.saveWithSupplier(product, createNewSupplier);
+                System.out.println("Product saved successfully!");
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        } else {
+            System.out.print("Enter Product ID to update: ");
+            try {
+                int productId = Integer.parseInt(scanner.nextLine());
+                product.setId(productId);
+                try {
+                    productService.updateWithSupplier(product, createNewSupplier);
+                    System.out.println("Product updated successfully!");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid product ID.");
+            }
+        }
+    }
+
     private void handleSupplierOperations(int operation) {
         switch (operation) {
             case 1:
-                System.out.println("Enter a supplier ID");
+                System.out.print("Enter supplier ID: ");
                 int supplierID = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 try {
                     Supplier s = supplierService.get(supplierID);
                     System.out.println("Supplier found: " + s);
@@ -114,15 +209,15 @@ public class MainMenu {
                 }
                 break;
             case 3:
-                supplierChanges(3);
+                createOrUpdateSupplier(true);
                 break;
             case 4:
-                supplierChanges(4);
+                createOrUpdateSupplier(false);
                 break;
             case 5:
-                System.out.println("Enter a supplier ID");
+                System.out.print("Enter supplier ID: ");
                 int supplierId = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 try {
                     supplierService.delete(supplierId);
                     System.out.println("Supplier deleted successfully");
@@ -136,10 +231,42 @@ public class MainMenu {
         }
     }
 
+    private void createOrUpdateSupplier(boolean isCreate) {
+        scanner.nextLine();
+
+        System.out.print("Enter Supplier name: ");
+        String supplierName = scanner.nextLine();
+        System.out.print("Enter Supplier phone number: ");
+        String supplierPhoneNo = scanner.nextLine();
+
+        if (isCreate) {
+            Supplier s = new Supplier(supplierName, supplierPhoneNo);
+            try {
+                supplierService.save(s);
+                System.out.println("Supplier saved successfully!");
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        } else {
+            System.out.print("Enter Supplier ID to update: ");
+            try {
+                int id = Integer.parseInt(scanner.nextLine());
+                Supplier s = new Supplier(id, supplierName, supplierPhoneNo);
+                try {
+                    supplierService.update(s);
+                    System.out.println("Supplier updated successfully!");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid ID.");
+            }
+        }
+    }
+
     private int optionMenu() {
         while(true) {
             System.out.println("\n=== Store Stock Management ===");
-            System.out.println("Choose an option from the following:");
             System.out.println("1. Product Service");
             System.out.println("2. Supplier Service");
             System.out.println("3. Exit");
@@ -151,103 +278,26 @@ public class MainMenu {
                 if (choice >= 1 && choice <= 3) {
                     return choice;
                 }
-                System.out.println("Please enter a number between 1 and 3");
+                System.out.println("Please enter 1, 2, or 3");
             } catch (Exception e) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println("Invalid input.");
             }
         }
     }
 
     private int entityMenu(String entityName) {
-        while(true) {
-            System.out.println("\n=== " + entityName.toUpperCase() + " MENU ===");
-            System.out.println("Choose an option from the following:");
-            System.out.println("1. Get a " + entityName);
-            System.out.println("2. Get all " + entityName + "s");
-            System.out.println("3. Save a " + entityName);
-            System.out.println("4. Update a " + entityName);
-            System.out.println("5. Delete a " + entityName);
-            System.out.print("Enter your choice: ");
+        System.out.println("\n=== " + entityName.toUpperCase() + " MENU ===");
+        System.out.println("1. Get a " + entityName);
+        System.out.println("2. Get all " + entityName + "s");
+        System.out.println("3. Save a " + entityName);
+        System.out.println("4. Update a " + entityName);
+        System.out.println("5. Delete a " + entityName);
+        System.out.print("Enter your choice: ");
 
-            String input = scanner.nextLine();
-            try {
-                int choice = Integer.parseInt(input);
-                if (choice >= 1 && choice <= 5) {
-                    return choice;
-                }
-                System.out.println("Please enter a number between 1 and 5");
-            } catch (Exception e) {
-                System.out.println("Invalid input. Please enter a number.");
-            }
-        }
-    }
-
-    private void productChanges(int commandNumber) {
-        System.out.print("Enter Supplier name: ");
-        String supplierName = scanner.nextLine();
-        System.out.print("Enter Supplier phone number: ");
-        String supplierPhoneNo = scanner.nextLine();
-        Supplier s = new Supplier(supplierName, supplierPhoneNo);
-
-        System.out.print("Enter Product name: ");
-        String productName = scanner.nextLine();
-        System.out.print("Enter description: ");
-        String description = scanner.nextLine();
-        System.out.print("Enter priority (1-5): ");
-        int priority = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
-        Product p = new Product(productName, description, priority, s);
-
-        if(commandNumber == 3){
-            try {
-                productService.save(p);
-                System.out.println("Product saved successfully!");
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
-        else {
-            System.out.print("Enter Product ID to update: ");
-            int id = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-            p.setId(id);
-            try {
-                productService.update(p);
-                System.out.println("Product updated successfully!");
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
-    }
-
-    private void supplierChanges(int commandNumber) {
-        System.out.print("Enter Supplier name: ");
-        String supplierName = scanner.nextLine();
-        System.out.print("Enter Supplier phone number: ");
-        String supplierPhoneNo = scanner.nextLine();
-
-        if(commandNumber == 3){
-            Supplier s = new Supplier(supplierName, supplierPhoneNo);
-            try {
-                supplierService.save(s);
-                System.out.println("Supplier saved successfully!");
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
-        else {
-            System.out.print("Enter Supplier ID to update: ");
-            int id = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-            Supplier s = new Supplier(supplierName, supplierPhoneNo);
-            s.setId(id);
-            try {
-                supplierService.update(s);
-                System.out.println("Supplier updated successfully!");
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (Exception e) {
+            return 0; // Invalid
         }
     }
 }

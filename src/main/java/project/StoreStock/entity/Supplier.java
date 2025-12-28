@@ -21,11 +21,17 @@ public class Supplier implements Comparable<Supplier>, Serializable {
     private String name;
 
     @NotBlank(message = "Phone number is required")
-    @Size(max = 15, message = "Phone number must be up to 15 characters")
+    @Size(max = 10, message = "Phone number must be up to 10 characters")
     private String phone;
 
     public Supplier(String name, String phone) {
         id = ++counter;
+        this.name = name;
+        this.phone = phone;
+    }
+
+    public Supplier(int id, String name, String phone) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
     }

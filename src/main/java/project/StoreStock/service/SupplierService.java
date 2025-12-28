@@ -72,4 +72,18 @@ public class SupplierService {
             throw new ValidationException(sb.toString());
         }
     }
+
+    public Supplier getById(int id) throws Exception {
+        return supplierDao.get(id);
+    }
+
+    public boolean exists(int id) throws Exception {
+        return supplierDao.get(id) != null;
+    }
+
+    public List<Supplier> findByName(String name) throws Exception {
+        return supplierDao.getAll().stream()
+                .filter(s -> s.getName().toLowerCase().contains(name.toLowerCase()))
+                .toList();
+    }
 }
