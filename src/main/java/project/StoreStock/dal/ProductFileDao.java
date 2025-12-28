@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class ProductFileDao {
+public class ProductFileDao implements ProductDAO {
 
     private final String FILENAME = "products.dat";
     private List<Product> products;
@@ -32,7 +32,7 @@ public class ProductFileDao {
                         .mapToInt(Product::getId)
                         .max()
                         .orElse(0);
-                Product.setCounter(maxId + 1);
+                Product.setCounter(maxId);
             }
             return loadedList;
         } catch (IOException | ClassNotFoundException e) {

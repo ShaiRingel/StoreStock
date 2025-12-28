@@ -53,7 +53,7 @@ public class ProductService {
 
     public void delete(int id) throws Exception {
         if (productDao.get(id) == null) {
-            throw new IDNotFoundException("Update", "Products", id);
+            throw new IDNotFoundException("Delete", "Product", id);
         }
         productDao.delete(id);
     }

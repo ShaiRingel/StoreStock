@@ -9,10 +9,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class SupplierFileDao {
+public class SupplierFileDao implements SupplierDAO {
 
     private final String FILENAME = "suppliers.dat";
-    private List<Supplier> suppliers;
+    private final List<Supplier> suppliers;
 
     public SupplierFileDao() {
         this.suppliers = initFromFile();
@@ -32,7 +32,7 @@ public class SupplierFileDao {
                         .mapToInt(Supplier::getId)
                         .max()
                         .orElse(0);
-                Supplier.setCounter(maxId + 1);
+                Supplier.setCounter(maxId);
             }
             return loadedList;
         } catch (IOException | ClassNotFoundException e) {
