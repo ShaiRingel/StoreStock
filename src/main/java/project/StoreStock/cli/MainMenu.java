@@ -13,6 +13,7 @@ public class MainMenu {
     private static final Scanner scanner = new Scanner(System.in);
     @Autowired
     private ProductService productService;
+    @Autowired
     private SupplierService supplierService;
 
     public void start() {
