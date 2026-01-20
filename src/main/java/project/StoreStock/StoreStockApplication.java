@@ -4,20 +4,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import project.StoreStock.cli.MainMenu;
+import project.StoreStock.cli.UserMenu;
 
 @SpringBootApplication
 public class StoreStockApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StoreStockApplication.class, args);
+
 	}
 
+	/*
 	@Bean
-	public CommandLineRunner run(MainMenu mainMenu) {
-		return args -> {
-			mainMenu.start();
-		};
+	CommandLineRunner run(UserMenu mainMenu) {
+		return args -> mainMenu.start();
 	}
-
+	 */
 }

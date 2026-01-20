@@ -1,6 +1,7 @@
 package project.StoreStock.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,8 +26,9 @@ public class SecurityController {
 		model.addAttribute("user", user);
 
 		String param = request.getParameter("incorrect");
+
 		if(param != null)
-			model.addAttribute("message", "Username or password is incorrect, please try again");
+			model.addAttribute("message", "Error: Invalid username or password");
 
 		return "login-page";
 	}
@@ -40,7 +42,16 @@ public class SecurityController {
 		}
 
 		if(security.login(user)){
-			request.getSession().setAttribute("user", user);
+			HttpSession oldSession = request.getSession(false);
+
+			if (oldSession != null)
+				oldSession.invalidate();
+
+			HttpSession newSession = request.getSession(true);
+			newSession.setAttribute("user", user);
+
+			security.resetAttempts(username);
+
 			return "redirect:/mainScreen";
 		}
 
