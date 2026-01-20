@@ -10,7 +10,7 @@ import project.StoreStock.cli.MainMenu;
 public class StoreStockApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.exit(SpringApplication.run(StoreStockApplication.class, args));
+		SpringApplication.run(StoreStockApplication.class, args);
 	}
 
 	@Bean
