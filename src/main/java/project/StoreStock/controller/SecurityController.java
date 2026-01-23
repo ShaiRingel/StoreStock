@@ -72,7 +72,7 @@ public class SecurityController {
 
 	@RequestMapping("/mainScreen")
 	public String showMainScreen(HttpServletRequest request) {
-		return "redirect:/mainpage";
+		return "redirect:/products";
 	}
 
 	@RequestMapping("/logout")
