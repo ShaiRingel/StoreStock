@@ -13,7 +13,6 @@ public class Supplier implements Comparable<Supplier>, Serializable {
     @Setter
     private static int counter = 0;
 
-    @Positive(message = "Id must be positive!")
     private int id ;
 
     @NotBlank(message = "Supplier name is required")
@@ -30,7 +29,7 @@ public class Supplier implements Comparable<Supplier>, Serializable {
         this.phone = phone;
     }
 
-    public Supplier(int id, String name, String phone) {
+     public Supplier(int id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -40,4 +39,5 @@ public class Supplier implements Comparable<Supplier>, Serializable {
     public int compareTo(Supplier s) {
         return this.name.compareTo(s.name);
     }
+
 }
