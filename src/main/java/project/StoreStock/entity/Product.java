@@ -1,5 +1,6 @@
 package project.StoreStock.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -28,17 +29,24 @@ public class Product implements Comparable<Product>, Serializable {
 
     private Supplier supplier;
 
-    public Product(){
-        id = ++counter;
-    }
+    public Product(){}
+
+
     public Product(String name, String description, int priority, Supplier supplier) {
+        System.out.println("3. "+counter);
         id = ++counter;
         this.name = name;
         this.description = description;
         this.priority = priority;
         this.supplier = supplier;
     }
-
+    public Product(int id,String name, String description, int priority, Supplier supplier) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.priority = priority;
+        this.supplier = supplier;
+    }
 
     @Override
     public int compareTo(Product p) {
