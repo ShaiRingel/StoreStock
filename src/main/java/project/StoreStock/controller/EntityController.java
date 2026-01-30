@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import project.StoreStock.entity.Product;
 import project.StoreStock.entity.Supplier;
 import project.StoreStock.service.ProductService;
@@ -34,7 +31,7 @@ public class EntityController {
         this.supplierService = supplierService;
     }
 
-    @GetMapping("/products")
+    @RequestMapping("/products")
     public String productsScreen(Model model) {
         model.addAttribute("page", "products");
 
@@ -53,7 +50,7 @@ public class EntityController {
         return "main-screen";
     }
 
-    @GetMapping("/suppliers")
+    @RequestMapping("/suppliers")
     public String suppliersScreen(Model model) {
         model.addAttribute("page", "suppliers");
 
@@ -72,12 +69,12 @@ public class EntityController {
         return "main-screen";
     }
 
-    @PostMapping("/add")
+    @RequestMapping("/add")
     public String goToAddScreen(@RequestParam(name = "page") String page) {
         return "redirect:/" + page + "-form";
     }
 
-    @PostMapping("/edit")
+    @RequestMapping("/edit")
     public String goToEditScreen(
             @RequestParam(name = "selectedId", required = false) Integer id,
             @RequestParam(name = "page") String page) {
@@ -89,7 +86,7 @@ public class EntityController {
         return "redirect:/" + page + "-form?id=" + id;
     }
 
-    @PostMapping("/show")
+    @RequestMapping("/show")
     public String goToShowScreen(
             @RequestParam(name = "selectedId", required = false) Integer id,
             @RequestParam(name = "page") String page) {
@@ -101,7 +98,7 @@ public class EntityController {
         return "redirect:/" + page + "-details?id=" + id;
     }
 
-    @PostMapping("/delete")
+    @RequestMapping("/delete")
     public String deleteSelected(
             @RequestParam(name = "selectedId", required = false) Integer id,
             @RequestParam(name = "page") String page) {
@@ -123,7 +120,7 @@ public class EntityController {
         return "redirect:/" + page;
     }
 
-    @GetMapping("/products-form")
+    @RequestMapping("/products-form")
     public String showProductForm(@RequestParam(value = "id", required = false) Integer id, Model model) {
         Product product;
 
@@ -149,7 +146,7 @@ public class EntityController {
         return "products-form";
     }
 
-    @PostMapping("/save-product")
+    @RequestMapping("/save-product")
     public String saveProduct(@Valid @ModelAttribute("product") Product product,
                               BindingResult result, Model model) {
             if (result.hasErrors()) {
@@ -174,10 +171,10 @@ public class EntityController {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            return "redirect:/mainScreen";
+            return "redirect:/products";
         }
 
-    @GetMapping("/suppliers-form")
+    @RequestMapping("/suppliers-form")
     public String showSupplierForm(@RequestParam(value = "id", required = false) Integer id, Model model) {
         Supplier supplier;
         if(id == null)
@@ -195,7 +192,7 @@ public class EntityController {
         return "suppliers-form";
     }
 
-    @PostMapping("/save-supplier")
+    @RequestMapping("/save-supplier")
     public String saveSupplier(@Valid @ModelAttribute("supplier") Supplier supplier,
                               BindingResult result, Model model) {
         if (result.hasErrors())
@@ -208,7 +205,7 @@ public class EntityController {
         } catch (Exception er) {
             throw new RuntimeException(er);
         }
-        return "redirect:/mainScreen";
+        return "redirect:/suppliers";
     }
 
 
