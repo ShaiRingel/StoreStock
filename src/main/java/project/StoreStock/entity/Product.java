@@ -32,6 +32,7 @@ public class Product implements Comparable<Product>, Serializable {
     @Max(value = 5, message = "Priority must be at most 5")
     private int priority;
 
+    @NotNull(message = "Must choose a supplier")
     private Supplier supplier;
 
     public Product(String name, String description, int priority, Supplier supplier) {
