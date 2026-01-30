@@ -1,15 +1,20 @@
 package project.StoreStock.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 public class Product implements Comparable<Product>, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Setter
     private static int counter = 0;
 
@@ -29,19 +34,9 @@ public class Product implements Comparable<Product>, Serializable {
 
     private Supplier supplier;
 
-    public Product(){}
-
-
     public Product(String name, String description, int priority, Supplier supplier) {
-        System.out.println("3. "+counter);
+        System.out.println("3. " + counter);
         id = ++counter;
-        this.name = name;
-        this.description = description;
-        this.priority = priority;
-        this.supplier = supplier;
-    }
-    public Product(int id,String name, String description, int priority, Supplier supplier) {
-        this.id = id;
         this.name = name;
         this.description = description;
         this.priority = priority;

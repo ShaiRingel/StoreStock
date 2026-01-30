@@ -6,11 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-@NoArgsConstructor
 public class User implements Comparable<User>, Serializable {
+	@Serial
+	private static final long serialVersionUID = 1L;
+
 	@Setter
 	private static int counter = 0;
 
@@ -21,6 +24,10 @@ public class User implements Comparable<User>, Serializable {
 	@ToString.Exclude
 	private String password;
 	private Boolean hasPermission;
+
+	public User() {
+		this.id = ++counter;
+	}
 
 	@Override
 	public int compareTo(User u) {

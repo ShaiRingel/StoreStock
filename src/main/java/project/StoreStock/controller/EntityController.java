@@ -40,7 +40,7 @@ public class EntityController {
 
         List<String> fields = Arrays.stream(Product.class.getDeclaredFields())
                 .map(Field::getName)
-                .filter(name -> !name.equals("counter"))
+                .filter(name -> !name.equals("counter")  && !name.equals("serialVersionUID"))
                 .toList();
 
         try {
@@ -59,7 +59,7 @@ public class EntityController {
 
         List<String> fields = Arrays.stream(Supplier.class.getDeclaredFields())
                 .map(Field::getName)
-                .filter(name -> !name.equals("counter"))
+                .filter(name -> !name.equals("counter") && !name.equals("serialVersionUID"))
                 .toList();
 
         try {
