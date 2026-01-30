@@ -90,12 +90,33 @@ public class EntityController {
     public String goToShowScreen(
             @RequestParam(name = "selectedId", required = false) Integer id,
             @RequestParam(name = "page") String page) {
+        System.out.println(page);
 
         if (id == null) {
             return "redirect:/" + page + "?error=noSelection";
         }
 
         return "redirect:/" + page + "-details?id=" + id;
+    }
+    @RequestMapping("/products-details")
+    public String showProductDetails(@RequestParam("id") int id, Model model){
+        try {
+            Product p = productService.get(id);
+            model.addAttribute("product",p);
+            return "product-details";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @RequestMapping("/suppliers-details")
+    public String showSupplierDetails(@RequestParam("id") int id, Model model){
+        try {
+            Supplier s = supplierService.getById(id);
+            model.addAttribute("supplier",s);
+            return "suppliers-details";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @RequestMapping("/delete")
@@ -172,7 +193,7 @@ public class EntityController {
                 throw new RuntimeException(e);
             }
             return "redirect:/products";
-        }
+    }
 
     @RequestMapping("/suppliers-form")
     public String showSupplierForm(@RequestParam(value = "id", required = false) Integer id, Model model) {
