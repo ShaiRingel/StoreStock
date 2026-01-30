@@ -1,6 +1,7 @@
 package project.StoreStock.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -127,7 +128,7 @@ public class EntityController {
         Product product;
 
         if(id == null){
-            product = new Product();
+            product = new Product("", "", 0, null);
             product.setSupplier(new Supplier());
         }
         else {
@@ -180,7 +181,7 @@ public class EntityController {
     public String showSupplierForm(@RequestParam(value = "id", required = false) Integer id, Model model) {
         Supplier supplier;
         if(id == null)
-            supplier = new Supplier();
+            supplier = new Supplier("","");
         else {
             try{
                 supplier = supplierService.get(id);
