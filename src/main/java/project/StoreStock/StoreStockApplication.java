@@ -14,10 +14,10 @@ public class StoreStockApplication {
 
 	}
 
-	/*
+
 	@Bean
 	CommandLineRunner run(UserMenu mainMenu) {
 		return args -> mainMenu.start();
 	}
-	 */
+
 }
