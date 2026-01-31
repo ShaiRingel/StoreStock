@@ -80,7 +80,7 @@
             </ul>
 
             <div class="user-info">
-                <span class="me-3">Hello, <span th:text="${session.username != null ? session.username : 'Guest'}">User</span></span>
+                <span class="me-3">Hello, <span th:text="${session.user.username != null ? session.user.username : 'Guest'}">User</span></span>
                 <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
             </div>
         </div>
