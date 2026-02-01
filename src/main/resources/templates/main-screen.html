@@ -151,10 +151,14 @@
                     <td th:text="${entity.phone}"></td>
                 </tr>
 
-                <tr th:if="${#lists.isEmpty(entities)}">
-                    <td colspan="6" class="text-center py-5 text-muted">
+                <tr th:if="${#lists.isEmpty(entities)}" th:switch="${page}">
+                    <td th:case="'products'" colspan="6" class="text-center py-5 text-muted">
                         <h5>No products found</h5>
                         <p>Use the "Add New" button to create products.</p>
+                    </td>
+                    <td th:case="'suppliers'" colspan="6" class="text-center py-5 text-muted">
+                        <h5>No suppliers found</h5>
+                        <p>Use the "Add New" button to create suppliers.</p>
                     </td>
                 </tr>
                 </tbody>
