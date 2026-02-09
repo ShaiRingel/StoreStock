@@ -77,7 +77,12 @@
 
             <dt class="col-sm-3">Priority:</dt>
             <dd class="col-sm-9">
-                <span class="badge bg-info text-dark" th:text="*{product.priority}"></span>
+                <span class="badge bg-info text-dark"
+                      th:text="(
+                              ${product.priority} == 1 ? 'Very low':
+                              (${product.priority} == 2 ? 'Low':
+                              (${product.priority} == 3 ? 'Medium':
+                              (${product.priority} == 4 ? 'High': 'Very high'))))">></span>
             </dd>
 
             <dt class="col-sm-3">Supplier:</dt>

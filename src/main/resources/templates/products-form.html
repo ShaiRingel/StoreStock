@@ -82,9 +82,17 @@
 
         </div>
 
+
+
         <div class="mb-3">
             <label for="priority">Priority:</label>
-            <input type="text" id="priority" th:field = "*{priority}"><br><br>
+            <select id="priority" th:field="*{priority}">
+                <option value="1">Very low</option>
+                <option value="2">Low</option>
+                <option value="3">Medium</option>
+                <option value="4">High</option>
+                <option value="5">Very high</option>
+            </select>
             <div th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}" class="text-danger"></div>
         </div>
 

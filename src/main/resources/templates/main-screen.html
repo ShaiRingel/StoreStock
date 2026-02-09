@@ -133,7 +133,11 @@
                             (${entity.priority} == 1 ? 'bg-danger' :
                             (${entity.priority} == 2 ? 'bg-warning text-dark' :
                             (${entity.priority} == 3 ? 'bg-info text-dark' : 'bg-success')))"
-                              th:text="${entity.priority}">
+                              th:text="(
+                              ${entity.priority} == 1 ? 'Very low':
+                              (${entity.priority} == 2 ? 'Low':
+                              (${entity.priority} == 3 ? 'Medium':
+                              (${entity.priority} == 4 ? 'High': 'Very high'))))">
                         </span>
                     </td>
 
