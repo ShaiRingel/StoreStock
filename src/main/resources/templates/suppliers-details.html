@@ -82,6 +82,28 @@
             <dt class="col-sm-3">Phone:</dt>
             <dd class="col-sm-9" th:text="${supplier.phone}"></dd>
 
+            <dd class="col-sm-9">
+                <div>
+                    <strong>Supplier's Products:</strong>
+
+                    <div style="max-height: 180px; overflow-y: auto; border-radius: 8px; border: 1px solid #dee2e6;" class="mt-2">
+                        <table class="table table-sm table-striped align-middle mb-0">
+                            <thead class="table-primary">
+                            <tr>
+                                <th style="width: 80px;">ID</th>
+                                <th>Name</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="p : ${supplierProducts}">
+                                <td th:text="${p.id}"></td>
+                                <td th:text="${p.name}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </dd>
         </dl>
 
         <div class="mt-4 d-flex gap-2">

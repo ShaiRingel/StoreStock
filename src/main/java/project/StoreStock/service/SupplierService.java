@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import project.StoreStock.dal.SupplierDAO;
+import project.StoreStock.entity.Product;
 import project.StoreStock.entity.Supplier;
 import project.StoreStock.exceptions.IDNotFoundException;
 import project.StoreStock.exceptions.MaxQuantityReachedException;
+import project.StoreStock.exceptions.SupplierHasProductsException;
 import project.StoreStock.exceptions.ValidationException;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Set;
 
 @Service
 public class SupplierService {
+    private final ProductService productService;
     private final SupplierDAO supplierDao;
     private final Validator validator;
 
@@ -23,7 +26,8 @@ public class SupplierService {
     private int maxSuppliers;
 
     @Autowired
-    public SupplierService(SupplierDAO supplierDao, Validator validator) {
+    public SupplierService(ProductService productService, SupplierDAO supplierDao, Validator validator) {
+        this.productService = productService;
         this.supplierDao = supplierDao;
         this.validator = validator;
     }
@@ -52,14 +56,23 @@ public class SupplierService {
     }
 
     public void delete(int id) throws Exception {
-        if (supplierDao.get(id) == null) {
+        if (supplierDao.get(id) == null)
             throw new IDNotFoundException("Delete", "Supplier", id);
-        }
-        supplierDao.delete(id);
+
+        if (getSupplierProducts(id).isEmpty())
+            supplierDao.delete(id);
+        else
+            throw new SupplierHasProductsException(id);
     }
 
     public Supplier get(int id) throws Exception {
         return supplierDao.get(id);
+    }
+
+    public List<Product> getSupplierProducts(int supplierId) throws Exception {
+        return productService.getAll().stream().
+                filter(p -> p.getSupplier().getId() == supplierId).
+                toList();
     }
 
     private void validate(Supplier supplier) throws Exception {

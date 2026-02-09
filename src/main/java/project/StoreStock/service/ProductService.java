@@ -18,16 +18,14 @@ import java.util.Set;
 @Service
 public class ProductService {
     private final ProductDAO productDao;
-    private final SupplierService supplierService;
     private final Validator validator;
 
     @Value("${products.max}")
     private int maxProducts;
 
     @Autowired
-    public ProductService(ProductDAO productDao, SupplierService supplierService, Validator validator) {
+    public ProductService(ProductDAO productDao, Validator validator) {
         this.productDao = productDao;
-        this.supplierService = supplierService;
         this.validator = validator;
     }
 
@@ -74,46 +72,6 @@ public class ProductService {
             }
             throw new ValidationException(sb.toString());
         }
-    }
-
-    public void saveWithSupplier(Product product, boolean createNewSupplier) throws Exception {
-        validate(product);
-
-        if (productDao.getAll().size() >= maxProducts) {
-            throw new MaxQuantityReachedException("Products", maxProducts);
-        }
-
-        if (createNewSupplier) {
-            supplierService.save(product.getSupplier());
-        } else {
-            Supplier existingSupplier = supplierService.get(product.getSupplier().getId());
-            if (existingSupplier == null) {
-                throw new IDNotFoundException("Use", "Supplier", product.getSupplier().getId());
-            }
-            product.setSupplier(existingSupplier);
-        }
-
-        productDao.save(product);
-    }
-
-    public void updateWithSupplier(Product product, boolean createNewSupplier) throws Exception {
-        validate(product);
-
-        if (productDao.get(product.getId()) == null) {
-            throw new IDNotFoundException("Update", "Product", product.getId());
-        }
-
-        if (createNewSupplier) {
-            supplierService.save(product.getSupplier());
-        } else {
-            Supplier existingSupplier = supplierService.get(product.getSupplier().getId());
-            if (existingSupplier == null) {
-                throw new IDNotFoundException("Use", "Supplier", product.getSupplier().getId());
-            }
-            product.setSupplier(existingSupplier);
-        }
-
-        productDao.update(product);
     }
 
 }

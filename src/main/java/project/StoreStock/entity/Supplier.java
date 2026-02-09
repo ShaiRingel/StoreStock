@@ -38,7 +38,7 @@ public class Supplier implements Comparable<Supplier>, Serializable {
 
     @Override
     public int compareTo(Supplier s) {
-        return this.name.compareTo(s.name);
+        return this.id - s.getId();
     }
 
 }

@@ -6,12 +6,16 @@ import project.StoreStock.entity.Product;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Repository
 public class ProductFileDao implements ProductDAO {
 
     private final String FILENAME = "products.dat";
+    private static final Comparator<Product> PRODUCT_COMPARATOR =
+            Comparator.comparingInt(Product::getPriority).reversed()
+                    .thenComparingInt(Product::getId);
     private List<Product> products;
 
     public ProductFileDao() {
@@ -25,7 +29,7 @@ public class ProductFileDao implements ProductDAO {
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             List<Product> loadedList = (List<Product>) ois.readObject();
-            Collections.sort(loadedList);
+            loadedList.sort(PRODUCT_COMPARATOR);
 
             if (!loadedList.isEmpty()) {
                 int maxId = loadedList.stream()
@@ -73,7 +77,7 @@ public class ProductFileDao implements ProductDAO {
     }
 
     private void saveToFile() throws IOException {
-        Collections.sort(products);
+        products.sort(PRODUCT_COMPARATOR);
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILENAME))) {
             oos.writeObject(products);
         }

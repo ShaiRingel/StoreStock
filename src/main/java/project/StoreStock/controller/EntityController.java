@@ -112,7 +112,9 @@ public class EntityController {
     public String showSupplierDetails(@RequestParam("id") int id, Model model){
         try {
             Supplier s = supplierService.getById(id);
+            List<Product> p = supplierService.getSupplierProducts(id);
             model.addAttribute("supplier",s);
+            model.addAttribute("supplierProducts", p);
             return "suppliers-details";
         } catch (Exception e) {
             throw new RuntimeException(e);
