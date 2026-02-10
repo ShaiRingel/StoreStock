@@ -19,6 +19,11 @@ import java.util.List;
 @Controller
 public class EntityController {
 
+    @RequestMapping("/")
+    public String mainRedirect() {
+        return "redirect:/products";
+    }
+
     @Autowired
     private final ProductService productService;
     @Autowired
